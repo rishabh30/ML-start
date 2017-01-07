@@ -55,7 +55,7 @@ clf = LinearRegression()
 clf.fit(training_features,training_labels)
 sc = clf.predict(training_features)
 from sklearn.metrics import r2_score,mean_squared_error
-print r  2_score(training_labels,sc)
+print r2_score(training_labels,sc)
 
 print mean_squared_error(training_labels, sc)
 #print sc
