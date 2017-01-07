@@ -1,3 +1,5 @@
+
+
 import numpy as np
 import pandas as pd
 
@@ -6,7 +8,12 @@ def view_model(model):
     """
     Look at model coeffiecients
     """
-    print model.coef_,model.intercept_
+    print "\n Model coeffiecients"
+    print "======================\n"
+    for i, coef in enumerate(model.coef_):
+        print "\tCoefficient %d  %0.3f" % (i + 1, coef)
+
+    print "\n\tIntercept %0.3f" % (model.intercept_)
 
 
 
@@ -47,26 +54,26 @@ training_labels = numpy_array[:,10]
 
 #print (training_features)
 
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import cross_val_score
-
-clf = LinearRegression()
+from sklearn import linear_model
+clf = linear_model.Lasso(alpha=9)
 
 clf.fit(training_features,training_labels)
 sc = clf.predict(training_features)
 from sklearn.metrics import r2_score,mean_squared_error
-print r  2_score(training_labels,sc)
-
+print r2_score(training_labels,sc)
 print mean_squared_error(training_labels, sc)
 #print sc
 #print training_labels
 view_model(clf)
-
 ##
 
-'''
-clf.fit (training_features , training_labels)
-scores = cross_val_score(clf, training_features, training_labels,scoring='r2')
+from sklearn.model_selection import cross_val_score
+#clf.fit (training_features , training_labels)
+scores = cross_val_score(clf, training_features, training_labels,cv=6)
 print (scores)
 print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+'''
+
+from sklearn import linear_model
+clf = linear_model.Lasso(alpha=0.1)
 '''
