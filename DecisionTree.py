@@ -1,14 +1,11 @@
-import numpy as numpy
+
+
+import numpy as np
+from sklearn.svm import SVR
+from sklearn import tree
+import matplotlib.pyplot as plt
+
 import pandas as pd
-
-
-def view_model(model):
-    """
-    Look at model coeffiecients
-    """
-    print model.coef_,model.intercept_
-
-
 
 input_file = "QUES.csv"
 input_file2 ="UIMS1.csv"
@@ -40,35 +37,23 @@ numpy_array2 = df2.as_matrix()
 
 # print (numpy_array)
 
-
-
-training_features = numpy_array[:,0:10]
-training_labels = numpy_array[:,10]
-
-#print (training_features)
-
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import cross_val_score
-
-clf = LinearRegression()
-
-clf.fit(training_features,training_labels)
-sc = clf.predict(training_features)
-
-
-from sklearn.metrics import r2_score,mean_squared_error
-print r2_score(training_labels,sc)
-
-print mean_squared_error(training_labels, sc)
-#print sc
-#print training_labels
-view_model(clf)
-
-##
-
 '''
-clf.fit (training_features , training_labels)
-scores = cross_val_score(clf, training_features, training_labels,scoring='r2')
+from sklearn import preprocessing
+min_max_scaler = preprocessing.MinMaxScaler()
+X_train_minmax = min_max_scaler.fit_transform(numpy_array)
+X_train_minmax
+'''
+
+X = numpy_array[:,0:10]
+y = numpy_array[:,10]
+
+
+clf = tree.DecisionTreeRegressor()
+y_rbf = clf.fit(X, y)
+
+###############################################################################
+
+from sklearn.model_selection import cross_val_score
+scores = cross_val_score(clf, X,y,scoring='r2',cv=10)
 print (scores)
 print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
-'''

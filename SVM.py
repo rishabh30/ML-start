@@ -57,6 +57,6 @@ y_rbf = svr_rbf.fit(X, y)
 ###############################################################################
 
 from sklearn.model_selection import cross_val_score
-scores = cross_val_score(svr_rbf, X,y,scoring='r2')
+scores = cross_val_score(svr_rbf, X,y,scoring='r2',cv=10)
 print (scores)
 print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
