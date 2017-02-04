@@ -42,9 +42,18 @@ numpy_array2 = df2.as_matrix()
 
 
 
-training_features = numpy_array[:,0:10]
-training_labels = numpy_array[:,10]
+X = numpy_array[:,0:10]
 
+Y = numpy_array[:,10]
+training_features = X
+training_labels = Y
+#training_features = [x for (y,x) in sorted(zip(Y,X), key=lambda pair: pair[0])]
+#training_labels = [y for (y,x) in sorted(zip(Y,X), key=lambda pair: pair[0])]
+k=0;
+for i in training_labels :
+    print training_features[k] , training_labels[k]
+    k=k+1
+import tensorflow as tf
 #print (training_features)
 
 from sklearn.linear_model import LinearRegression
@@ -53,7 +62,17 @@ from sklearn.model_selection import cross_val_score
 clf = LinearRegression()
 
 clf.fit(training_features,training_labels)
+'''
 sc = clf.predict(training_features)
+#print "printing scores" , sc
+import math
+k=0;
+for i in sc :
+    #print training_labels[k] - sc[k]
+    #sc[k] = (i-trainii-training_labels[k]ng_labels[k])**2
+    sc[k] = math.pow(i-training_labels[k], 2)
+    print k ,  sc[k]
+    k=k+1;
 
 
 from sklearn.metrics import r2_score,mean_squared_error
@@ -66,9 +85,30 @@ view_model(clf)
 
 ##
 
-'''
+
+index = []
+
+from outlierFunction import outliers
+
+clearedData = outliers(training_features,training_labels,sc)
+training_features = []
+training_features, training_labels, sc,index = zip(*clearedData)
+training_features = numpy.asarray(training_features)
+training_labels = numpy.asarray(training_labels)
+index= numpy.asarray(index)
+print sc
+
+
+k=0;
+for i in sc :
+    # print training_labels[k] - sc[k]
+    # sc[k] = (i-training_labels[k])**2
+    # sc[k] = math.pow(i-training_labels[k], 2)
+    print index[k] ,  sc[k]
+    k=k+1;
+
 clf.fit (training_features , training_labels)
-scores = cross_val_score(clf, training_features, training_labels,scoring='r2')
+'''
+scores = cross_val_score(clf, training_features, training_labels,cv=10,scoring='r2')
 print (scores)
 print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
-'''

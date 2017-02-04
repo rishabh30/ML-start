@@ -5,10 +5,13 @@ def outliers(training_features,training_labels,sc)  :
 
     import numpy as numpy
     clearedData = []
+    k=0
     for tf , tl , pr in zip(training_features,training_labels,sc):
-        clearedData.append((tf,tl,pr));
+        clearedData.append((tf,tl,pr,k));
+        k=k+1;
     clearedData.sort(key = lambda val:val[2])
-    clearedData = clearedData[0:65]
+    clearedData = clearedData[0:71]
+
     return clearedData
 
 
