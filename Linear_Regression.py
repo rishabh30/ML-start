@@ -3,7 +3,6 @@ import numpy as numpy
 import pandas as pd
 import math
 
-
 def view_model(model):
     """
     Look at model coeffiecients
@@ -41,32 +40,30 @@ numpy_array2 = df2.as_matrix()
 
 # print (numpy_array)
 
-x = numpy_array[:, 0:10]
-y = numpy_array[:, 10]
+X = numpy_array[:, 0:10]
+Y = numpy_array[:, 10]
 
 from sklearn.linear_model import LinearRegression
 
 clf = LinearRegression()
 
-'''
+
 training_features = X
 training_labels = Y
+'''
 #training_features = [x for (y,x) in sorted(zip(Y,X), key=lambda pair: pair[0])]
 #training_labels = [y for (y,x) in sorted(zip(Y,X), key=lambda pair: pair[0])]
-<<<<<<< HEAD
+
 k=0;
 for i in training_labels :
     print training_features[k] , training_labels[k]
     k=k+1
 
-import tensorflow as tf
-||||||| merged common ancestors
 k=0;
 for i in training_labels :
     print training_features[k] , training_labels[k]
     k=k+1
 import tensorflow as tf
-=======
 #k=0;
 #for i in training_labels :
 #    print training_features[k] , training_labels[k]
@@ -130,19 +127,16 @@ for i in sc :
     k=k+1;
 
 clf.fit (training_features , training_labels)
-<<<<<<< HEAD
 
 scores = cross_val_score(clf, training_features, training_labels,cv=10,scoring='r2')
 
 print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 '''
 
-scores = cross_val_score(clf, training_features, training_labels,cv=10,scoring='r2')
-print (scores)
-print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+from CrossValidation import cross_validation
 
-
-
+err = cross_validation(clf,training_features,training_labels,71)
+print "MMRE ERROR:", err
 #scores = cross_val_score(clf, training_features, training_labels,cv=10,scoring='neg_mean_squared_error')
 #print (scores)
 #print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
