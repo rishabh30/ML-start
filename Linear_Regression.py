@@ -49,11 +49,10 @@ training_features = X
 training_labels = Y
 #training_features = [x for (y,x) in sorted(zip(Y,X), key=lambda pair: pair[0])]
 #training_labels = [y for (y,x) in sorted(zip(Y,X), key=lambda pair: pair[0])]
-k=0;
-for i in training_labels :
-    print training_features[k] , training_labels[k]
-    k=k+1
-import tensorflow as tf
+#k=0;
+#for i in training_labels :
+#    print training_features[k] , training_labels[k]
+#    k=k+1
 #print (training_features)
 
 from sklearn.linear_model import LinearRegression
@@ -109,6 +108,11 @@ for i in sc :
 
 clf.fit (training_features , training_labels)
 '''
-scores = cross_val_score(clf, training_features, training_labels,cv=10,scoring='r2')
-print (scores)
-print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+
+
+#scores = cross_val_score(clf, training_features, training_labels,cv=10,scoring='neg_mean_squared_error')
+#print (scores)
+#print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+
+from CrossValidation import crossValidation
+print crossValidation(clf,training_features,training_labels)
