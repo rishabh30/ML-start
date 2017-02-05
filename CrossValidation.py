@@ -1,27 +1,28 @@
 
 # for finding various errors by cross validation
 
-def crossValidation(model,training_features,training_labels) :
+
+def cross_validation(model, training_features, training_labels, folds):
     n = len(training_labels)
-    #print n
+    # print n
     import math
     import numpy
-    meanAbsoluteError = 0
 
-    for k in range(0, n):
+    mas = 0
+
+    for k in xrange(folds, n, folds):
         tempTF = []
         tempTL = []
-
         tempTestTF = []
         tempTestTL = []
 
         for i in range(0, n):
-            if i != k:
-                tempTF.append(training_features[i])
-                tempTL.append(training_labels[i])
-            else:
+            if k > i >= (k - folds):
                 tempTestTF.append(training_features[i])
                 tempTestTL.append(training_labels[i])
+            else:
+                tempTF.append(training_features[i])
+                tempTL.append(training_labels[i])
 
         tempTF = numpy.vstack(tempTF)
         tempTL = numpy.array(tempTL)
@@ -30,10 +31,18 @@ def crossValidation(model,training_features,training_labels) :
 
         model.fit(tempTF, tempTL)
         x = model.predict(tempTestTF)
-        meanAbsoluteError = meanAbsoluteError + math.fabs(x - tempTestTL)
-        print "ITERATOR (Actual , Predicted ) --> " ,k,": ( ",x ,", ", tempTestTL,") "
+        meanAbsoluteError = (math.fabs(x - tempTestTL)) / tempTestTL
+        mas += sum(meanAbsoluteError)
+        print "ITERATOR (Actual , Predicted ) --> ", k, ": ( ", x, ", ", tempTestTL, ") "
         # print "Mean Absolute Error %d " , meanAbsoluteError
 
         # print len(tempTestTF)
-    meanAbsoluteError = meanAbsoluteError / n
-    return meanAbsoluteError
+
+    mas /= n
+    return mas
+
+
+err = cross_validation(clf, x, y, 2)
+err1 = err * 71
+print "MMRE ERROR:", err
+print "MAX MRE:", err1
