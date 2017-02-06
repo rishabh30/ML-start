@@ -61,8 +61,14 @@ training_labels = numpy.array(training_labels)
 
 seed = 7
 numpy.random.seed(seed)
-estimator = KerasRegressor(build_fn=baseline_model, nb_epoch=1100, batch_size=5, verbose=0)
-
+estimator = KerasRegressor(build_fn=baseline_model, nb_epoch=11, batch_size=5, verbose=0)
+'''IndexError: list assignment index out of range
 kfold = KFold(n_splits=10, random_state=seed)
 results = cross_val_score(estimator, X, Y, cv=kfold)
 print("Results: %.2f (%.2f) MSE" % (results.mean(), results.std()))
+'''
+
+from CrossValidation import cross_validation
+
+err = cross_validation(estimator,training_features,training_labels,10)
+print "MMRE ERROR:", err

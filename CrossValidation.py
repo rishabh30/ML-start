@@ -30,13 +30,23 @@ def cross_validation(model, training_features, training_labels, folds):
         tempTL = numpy.array(tempTL)
         tempTestTF = numpy.vstack(tempTestTF)
         tempTestTL = numpy.array(tempTestTL)
-        #print counter , ":len of training and test data:" , len(tempTL) , len(tempTestTL)
-        if(len(tempTL)<increment) :
+        print counter , ":len of training and test data:" , len(tempTL) , len(tempTestTL)
+        if(len(tempTestTL)<increment) :
             continue
         model.fit(tempTF, tempTL)
         x = model.predict(tempTestTF)
-        #print x
-        meanAbsoluteError = [math.fabs(a-b)/b for a, b in zip(x, tempTestTL)]
+        print x, tempTestTL
+        #meanAbsoluteError = [math.fabs(a-b)/b for a, b in zip(x, tempTestTL)]
+        meanAbsoluteError = []
+
+        if(len(tempTestTL)>1):
+            meanAbsoluteError = [math.fabs(a-b)/b for a, b in zip(x, tempTestTL)]
+        else :
+            meanAbsoluteError.append ( math.fabs(x-tempTestTL[0])/tempTestTL[0] )
+            i= i+1
+        print meanAbsoluteError
+
+
         mas = sum(meanAbsoluteError)
         mas = mas/len(tempTestTL)
         print mas
@@ -47,4 +57,4 @@ def cross_validation(model, training_features, training_labels, folds):
         # print len(tempTestTF)
         counter = counter + 1
     total_mmre /= counter
-    return mas
+    return total_mmre
