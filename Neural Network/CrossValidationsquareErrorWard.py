@@ -33,8 +33,8 @@ def cross_validation(model, training_features, training_labels, folds):
         print counter , ":len of training and test data:" , len(tempTL) , len(tempTestTL)
         if(len(tempTestTL)<increment) :
             continue
-        model.fit(tempTF, tempTL)
-        x = model.predict(tempTestTF)
+        model.fit([tempTF,tempTF,tempTF], tempTL)
+        x = model.predict([tempTestTF,tempTestTF,tempTestTF])
         print x, tempTestTL
         #meanAbsoluteError = [math.fabs(a-b)/b for a, b in zip(x, tempTestTL)]
         meanAbsoluteError = []

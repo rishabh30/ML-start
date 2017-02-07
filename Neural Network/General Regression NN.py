@@ -27,14 +27,14 @@ BaseWrapper.get_params = custom_get_params
 def baseline_model():
     # create model
     model = Sequential()
-    model.add(Dense(7, input_dim=10, init='normal', activation='sigmoid'))
+    model.add(Dense(71, input_dim=10, init='normal', activation='relu'))
     model.add(Dense(1, init='normal'))
-    epochs = 50
-    learning_rate = 0.5
-    decay_rate = learning_rate / epochs
-    momentum = 0.8
-    sgd = SGD(lr=learning_rate, momentum=momentum, decay=decay_rate, nesterov=False)
-    model.compile(loss='mean_squared_error',optimizer=sgd)
+    # epochs = 50
+    # learning_rate = 0.1
+    # decay_rate = learning_rate / epochs
+    # momentum = 0.1
+    # sgd = SGD( momentum=momentum)
+    model.compile(loss='mean_squared_error',optimizer='adam')
     return model
 
 
@@ -59,14 +59,16 @@ numpy_array2 = df2.as_matrix()
 X = numpy_array[:, 0:10]
 Y = numpy_array[:, 10]
 
-training_features = [x for (y, x) in sorted(zip(Y, X), key=lambda pair: pair[0])]
-training_labels = [y for (y, x) in sorted(zip(Y, X), key=lambda pair: pair[0])]
-training_features = numpy.vstack(training_features)
-training_labels = numpy.array(training_labels)
-
+#training_features = [x for (y, x) in sorted(zip(Y, X), key=lambda pair: pair[0])]
+#training_labels = [y for (y, x) in sorted(zip(Y, X), key=lambda pair: pair[0])]
+#training_features = numpy.vstack(training_features)
+#training_labels = numpy.array(training_labels)
+training_features = X
+training_labels = Y
+print X,Y
 seed = 7
 numpy.random.seed(seed)
-estimator = KerasRegressor(build_fn=baseline_model, nb_epoch=900, batch_size=5, verbose=0)
+estimator = KerasRegressor(build_fn=baseline_model, nb_epoch=1100, batch_size=5, verbose=0)
 '''IndexError: list assignment index out of range
 kfold = KFold(n_splits=10, random_state=seed)
 results = cross_val_score(estimator, X, Y, cv=kfold)
