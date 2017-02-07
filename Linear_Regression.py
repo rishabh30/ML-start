@@ -133,10 +133,22 @@ scores = cross_val_score(clf, training_features, training_labels,cv=10,scoring='
 print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 '''
 
-from CrossValidation import cross_validation
+from CrossValidationsquareError import cross_validation
 
 err = cross_validation(clf,training_features,training_labels,71)
 print "MMRE ERROR:", err
+'''
+from CrossValidationPred25 import cross_validation
+
+err = cross_validation(clf,training_features,training_labels,71)
+print "PRED 25:", err
+
+
+from CrossValidationPred50 import cross_validation
+
+err = cross_validation(clf,training_features,training_labels,71)
+print "PRED 30:", err
+'''
 #scores = cross_val_score(clf, training_features, training_labels,cv=10,scoring='neg_mean_squared_error')
 #print (scores)
 #print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))

@@ -9,6 +9,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import KFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
+from keras.optimizers import SGD
 
 from keras.wrappers.scikit_learn import BaseWrapper
 import copy
@@ -26,10 +27,14 @@ BaseWrapper.get_params = custom_get_params
 def baseline_model():
     # create model
     model = Sequential()
-    model.add(Dense(71, input_dim=10, init='normal', activation='relu'))
+    model.add(Dense(7, input_dim=10, init='normal', activation='sigmoid'))
     model.add(Dense(1, init='normal'))
-    # Compile model
-    model.compile(loss='mean_squared_error', optimizer='adam')
+    epochs = 50
+    learning_rate = 0.5
+    decay_rate = learning_rate / epochs
+    momentum = 0.8
+    sgd = SGD(lr=learning_rate, momentum=momentum, decay=decay_rate, nesterov=False)
+    model.compile(loss='mean_squared_error',optimizer=sgd)
     return model
 
 
@@ -61,14 +66,14 @@ training_labels = numpy.array(training_labels)
 
 seed = 7
 numpy.random.seed(seed)
-estimator = KerasRegressor(build_fn=baseline_model, nb_epoch=11, batch_size=5, verbose=0)
+estimator = KerasRegressor(build_fn=baseline_model, nb_epoch=900, batch_size=5, verbose=0)
 '''IndexError: list assignment index out of range
 kfold = KFold(n_splits=10, random_state=seed)
 results = cross_val_score(estimator, X, Y, cv=kfold)
 print("Results: %.2f (%.2f) MSE" % (results.mean(), results.std()))
 '''
 
-from CrossValidation import cross_validation
+from CrossValidationsquareError import cross_validation
 
 err = cross_validation(estimator,training_features,training_labels,10)
 print "MMRE ERROR:", err
