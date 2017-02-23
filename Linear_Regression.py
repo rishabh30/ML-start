@@ -133,7 +133,7 @@ scores = cross_val_score(clf, training_features, training_labels,cv=10,scoring='
 print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 '''
 
-from CrossValidationsquareError import cross_validation
+from CrossValidationMaxMRE import cross_validation
 
 err = cross_validation(clf,training_features,training_labels,71)
 print "MMRE ERROR:", err

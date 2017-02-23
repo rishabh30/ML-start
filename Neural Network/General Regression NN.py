@@ -75,7 +75,7 @@ results = cross_val_score(estimator, X, Y, cv=kfold)
 print("Results: %.2f (%.2f) MSE" % (results.mean(), results.std()))
 '''
 
-from CrossValidationsquareError import cross_validation
+from CrossValidationMaxMRE import cross_validation
 
 err = cross_validation(estimator,training_features,training_labels,10)
 print "MMRE ERROR:", err
