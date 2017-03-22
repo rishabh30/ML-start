@@ -1,18 +1,11 @@
-import numpy as numpy
-import pandas as pd
-import numpy
-import pandas
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.wrappers.scikit_learn import KerasRegressor
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import KFold
-from sklearn.preprocessing import StandardScaler
-from sklearn.pipeline import Pipeline
-from keras.optimizers import SGD
-
-from keras.wrappers.scikit_learn import BaseWrapper
 import copy
+
+import numpy
+import pandas as pd
+from keras.layers import Dense
+from keras.models import Sequential
+from keras.wrappers.scikit_learn import BaseWrapper
+from keras.wrappers.scikit_learn import KerasRegressor
 
 
 def custom_get_params(self, **params):
@@ -26,8 +19,6 @@ BaseWrapper.get_params = custom_get_params
 # define base mode
 def baseline_model():
     # create model
-
-
     from keras.layers import Merge
 
     left_branch = Sequential()
@@ -79,7 +70,7 @@ training_labels = Y
 print X,Y
 seed = 7
 numpy.random.seed(seed)
-estimator = KerasRegressor(build_fn=baseline_model, nb_epoch=1100, batch_size=5, verbose=0)
+estimator = KerasRegressor(build_fn=baseline_model, nb_epoch=1100, batch_size=5, verbose=1)
 '''IndexError: list assignment index out of range
 kfold = KFold(n_splits=10, random_state=seed)
 results = cross_val_score(estimator, X, Y, cv=kfold)
