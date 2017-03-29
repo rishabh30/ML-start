@@ -1,18 +1,11 @@
-import numpy as numpy
-import pandas as pd
-import numpy
-import pandas
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.wrappers.scikit_learn import KerasRegressor
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import KFold
-from sklearn.preprocessing import StandardScaler
-from sklearn.pipeline import Pipeline
-from keras.optimizers import SGD
-
-from keras.wrappers.scikit_learn import BaseWrapper
 import copy
+
+import numpy
+import pandas as pd
+from keras.layers import Dense
+from keras.models import Sequential
+from keras.wrappers.scikit_learn import BaseWrapper
+from keras.wrappers.scikit_learn import KerasRegressor
 
 
 def custom_get_params(self, **params):
@@ -23,27 +16,28 @@ def custom_get_params(self, **params):
 
 BaseWrapper.get_params = custom_get_params
 
+
 # define base mode
 def baseline_model():
     # create model
     from keras.layers import Merge
 
     left_branch = Sequential()
-    left_branch.add(Dense(3, input_dim=3 , activation='softplus'))
-   # left_branch.add(Dense(1))
+    left_branch.add(Dense(3, input_dim=3, activation='softplus'))
+    # left_branch.add(Dense(1))
     right_branch = Sequential()
-    right_branch.add(Dense(3, input_dim=3 , activation='sigmoid'))
+    right_branch.add(Dense(3, input_dim=3, activation='sigmoid'))
 
     third = Sequential()
     third.add(Dense(3, input_dim=3, init='normal', activation='relu'))
 
-    merged = Merge([left_branch, right_branch,third], mode='concat')
+    merged = Merge([left_branch, right_branch, third], mode='concat')
 
     final_model = Sequential()
     final_model.add(merged)
     final_model.add(Dense(1))
 
-    final_model.compile(loss='mean_squared_error',optimizer='adam')
+    final_model.compile(loss='mean_squared_error', optimizer='adam')
     return final_model
 
 
@@ -68,13 +62,13 @@ numpy_array2 = df2.as_matrix()
 X = numpy_array[:, 0:3]
 Y = numpy_array[:, 3]
 
-#training_features = [x for (y, x) in sorted(zip(Y, X), key=lambda pair: pair[0])]
-#training_labels = [y for (y, x) in sorted(zip(Y, X), key=lambda pair: pair[0])]
-#training_features = numpy.vstack(training_features)
-#training_labels = numpy.array(training_labels)
+# training_features = [x for (y, x) in sorted(zip(Y, X), key=lambda pair: pair[0])]
+# training_labels = [y for (y, x) in sorted(zip(Y, X), key=lambda pair: pair[0])]
+# training_features = numpy.vstack(training_features)
+# training_labels = numpy.array(training_labels)
 training_features = X
 training_labels = Y
-#print X,Y
+# print X,Y
 seed = 7
 numpy.random.seed(seed)
 estimator = KerasRegressor(build_fn=baseline_model, nb_epoch=1100, batch_size=5, verbose=0)
@@ -85,18 +79,20 @@ print("Results: %.2f (%.2f) MSE" % (results.mean(), results.std()))
 '''
 
 from MaxSquaredError import cross_validation
-i=0
-while(i<10) :
+
+i = 0
+while (i < 10):
     print training_labels.size
-    clearedData = cross_validation(estimator,training_features,training_labels,training_labels.size,i)
+    clearedData = cross_validation(estimator, training_features, training_labels, training_labels.size, i)
 
     training_features, training_labels, sc = zip(*clearedData)
     training_features = numpy.asarray(training_features)
     training_labels = numpy.asarray(training_labels)
     sc = numpy.asarray(sc)
-    i=i+1
+    i = i + 1
 
 print "FINAL MMRE ERROR:", sc.mean()
 
 from  CrossValidationsquareErrorWard import cross_validationall
-err = cross_validationall(estimator,training_features,training_labels,61)
+
+err = cross_validationall(estimator, training_features, training_labels, 61)

@@ -5,13 +5,12 @@ Predicting software maintainability from various software metric.
 Objective of this project is to predict the change in particular software over a period of time depending upon oo metrics. 
 
 It involves analyzing various Machine Learning models like Linear Regression , GRNN , Ward Neural Network and NNEP GRNN .
-
+<pre>
 <h2>Using Feature Selction </h2>
 
 Choosing best 3 components to represent 
 
 <h2>Using PCA </h2>
-
 Choosing first 3 components capturing around 89% of data functionality
 
 eigenvalue	proportion	cumulative
@@ -33,15 +32,9 @@ Eigenvectors
 -0.4083	-0.1884	-0.0489	-0.0211	-0.2787	size2
 -0.3626	 0.3367	 0.0678	-0.3258	 0.2475	size1
 
-
 Making 3 new component using above eigenvectors
-
-
+</pre>
 
 <h3> Developed by: </h3> 
-<h4>
- <br>
 	RISHABH JAIN 
- <br>
 	TEJAN PREET SINGH
-</h4>

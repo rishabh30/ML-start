@@ -1,7 +1,5 @@
-import random
-import numpy as numpy
 import pandas as pd
-import math
+
 
 def view_model(model):
     """
@@ -46,7 +44,6 @@ Y = numpy_array[:, 10]
 from sklearn.linear_model import LinearRegression
 
 clf = LinearRegression()
-
 
 training_features = X
 training_labels = Y
@@ -135,7 +132,7 @@ print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 
 from CrossValidationMaxMRE import cross_validation
 
-err = cross_validation(clf,training_features,training_labels,71)
+err = cross_validation(clf, training_features, training_labels, 71)
 print "MMRE ERROR:", err
 '''
 from CrossValidationPred25 import cross_validation
@@ -149,6 +146,6 @@ from CrossValidationPred50 import cross_validation
 err = cross_validation(clf,training_features,training_labels,71)
 print "PRED 30:", err
 '''
-#scores = cross_val_score(clf, training_features, training_labels,cv=10,scoring='neg_mean_squared_error')
-#print (scores)
-#print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+# scores = cross_val_score(clf, training_features, training_labels,cv=10,scoring='neg_mean_squared_error')
+# print (scores)
+# print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))

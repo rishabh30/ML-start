@@ -1,11 +1,8 @@
-import numpy as np
-from sklearn.svm import SVR
-import matplotlib.pyplot as plt
-
 import pandas as pd
+from sklearn.svm import SVR
 
 input_file = "QUES.csv"
-input_file2 ="UIMS1.csv"
+input_file2 = "UIMS1.csv"
 
 # comma delimited is the default
 df = pd.read_csv(input_file, header=0)
@@ -41,9 +38,8 @@ X_train_minmax = min_max_scaler.fit_transform(numpy_array)
 X_train_minmax
 '''
 
-X = numpy_array[:,0:10]
-y = numpy_array[:,10]
-
+X = numpy_array[:, 0:10]
+y = numpy_array[:, 10]
 
 # np = np.asarray(numpy_array, dtype=float)
 
@@ -55,6 +51,7 @@ y_rbf = svr_rbf.fit(X, y)
 ###############################################################################
 
 from sklearn.model_selection import cross_val_score
-scores = cross_val_score(svr_rbf, X,y,scoring='neg_mean_squared_error',cv=10)
+
+scores = cross_val_score(svr_rbf, X, y, scoring='neg_mean_squared_error', cv=10)
 print (scores)
 print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))

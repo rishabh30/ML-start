@@ -1,14 +1,8 @@
-
-
-import numpy as np
-from sklearn.svm import SVR
-from sklearn import tree
-import matplotlib.pyplot as plt
-
 import pandas as pd
+from sklearn import tree
 
 input_file = "QUES.csv"
-input_file2 ="UIMS1.csv"
+input_file2 = "UIMS1.csv"
 
 # comma delimited is the default
 df = pd.read_csv(input_file, header=0)
@@ -44,17 +38,16 @@ X_train_minmax = min_max_scaler.fit_transform(numpy_array)
 X_train_minmax
 '''
 
-X = numpy_array[:,0:10]
-Y = numpy_array[:,10]
-
+X = numpy_array[:, 0:10]
+Y = numpy_array[:, 10]
 
 clf = tree.DecisionTreeRegressor()
-
 
 ###############################################################################
 ##R2 SCORE
 from sklearn.model_selection import cross_val_score
-scores = cross_val_score(clf, X, Y, scoring='r2',cv=10)
+
+scores = cross_val_score(clf, X, Y, scoring='r2', cv=10)
 print (scores)
 print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 

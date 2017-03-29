@@ -1,18 +1,11 @@
-import numpy as numpy
-import pandas as pd
-import numpy
-import pandas
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.wrappers.scikit_learn import KerasRegressor
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import KFold
-from sklearn.preprocessing import StandardScaler
-from sklearn.pipeline import Pipeline
-from keras.optimizers import SGD
-
-from keras.wrappers.scikit_learn import BaseWrapper
 import copy
+
+import numpy
+import pandas as pd
+from keras.layers import Dense
+from keras.models import Sequential
+from keras.wrappers.scikit_learn import BaseWrapper
+from keras.wrappers.scikit_learn import KerasRegressor
 
 
 def custom_get_params(self, **params):
@@ -22,6 +15,7 @@ def custom_get_params(self, **params):
 
 
 BaseWrapper.get_params = custom_get_params
+
 
 # define base mode
 def baseline_model():
@@ -34,7 +28,7 @@ def baseline_model():
     # decay_rate = learning_rate / epochs
     # momentum = 0.1
     # sgd = SGD( momentum=momentum)
-    model.compile(loss='mean_squared_error',optimizer='adam')
+    model.compile(loss='mean_squared_error', optimizer='adam')
     return model
 
 
@@ -59,13 +53,13 @@ numpy_array2 = df2.as_matrix()
 X = numpy_array[:, 0:10]
 Y = numpy_array[:, 10]
 
-#training_features = [x for (y, x) in sorted(zip(Y, X), key=lambda pair: pair[0])]
-#training_labels = [y for (y, x) in sorted(zip(Y, X), key=lambda pair: pair[0])]
-#training_features = numpy.vstack(training_features)
-#training_labels = numpy.array(training_labels)
+# training_features = [x for (y, x) in sorted(zip(Y, X), key=lambda pair: pair[0])]
+# training_labels = [y for (y, x) in sorted(zip(Y, X), key=lambda pair: pair[0])]
+# training_features = numpy.vstack(training_features)
+# training_labels = numpy.array(training_labels)
 training_features = X
 training_labels = Y
-print X,Y
+print X, Y
 seed = 7
 numpy.random.seed(seed)
 estimator = KerasRegressor(build_fn=baseline_model, nb_epoch=1100, batch_size=5, verbose=0)
@@ -77,5 +71,5 @@ print("Results: %.2f (%.2f) MSE" % (results.mean(), results.std()))
 
 from CrossValidationMaxMRE import cross_validation
 
-err = cross_validation(estimator,training_features,training_labels,71)
+err = cross_validation(estimator, training_features, training_labels, 71)
 print "MMRE ERROR:", err
