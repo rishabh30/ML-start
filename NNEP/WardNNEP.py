@@ -29,7 +29,7 @@ def baseline_model():
     from keras.layers import Merge
 
     left_branch = Sequential()
-    left_branch.add(Dense(3, input_dim=3 , activation='tanh'))
+    left_branch.add(Dense(3, input_dim=3 , activation='softplus'))
    # left_branch.add(Dense(1))
     right_branch = Sequential()
     right_branch.add(Dense(3, input_dim=3 , activation='sigmoid'))
@@ -94,5 +94,9 @@ while(i<10) :
     training_features = numpy.asarray(training_features)
     training_labels = numpy.asarray(training_labels)
     sc = numpy.asarray(sc)
+    i=i+1
 
 print "FINAL MMRE ERROR:", sc.mean()
+
+from  CrossValidationsquareErrorWard import cross_validationall
+err = cross_validationall(estimator,training_features,training_labels,61)
