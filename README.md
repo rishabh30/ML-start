@@ -36,5 +36,5 @@ Making 3 new component using above eigenvectors
 </pre>
 
 <h3> Developed by: </h3> 
-	RISHABH JAIN 
+	RISHABH JAIN <br>
 	TEJAN PREET SINGH
