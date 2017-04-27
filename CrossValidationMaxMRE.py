@@ -40,22 +40,22 @@ def cross_validation(model, training_features, training_labels, folds):
         # meanAbsoluteError = [math.fabs(a-b)/b for a, b in zip(x, tempTestTL)]
         meanAbsoluteError = []
 
-        if (len(tempTestTL) > 1):
+        if len(tempTestTL) > 1:
             meanAbsoluteError = [math.fabs(a - b) / b for a, b in zip(x, tempTestTL)]
         else:
             meanAbsoluteError.append(math.fabs(x - tempTestTL[0]) / tempTestTL[0])
             sqMeanError += (x - tempTestTL[0]) ** 2
-            i = i + 1
+            i += 1
         print meanAbsoluteError
 
         mas = sum(meanAbsoluteError)
-        mas = mas / len(tempTestTL)
+        mas /= len(tempTestTL)
         print mas
         if mas <= 0.25:
             totalpred25 += 1.0
         if mas <= 0.30:
             totalpred30 += 1.0
-        total_mmre = max(mas, total_mmre)
+        total_mmre += mas
         # print  total_mmre
         print "ITERATOR (Actual , Predicted ) --> ", k, ": ( ", x, ", ", tempTestTL, ") "
         # print "Mean Absolute Error %d " , meanAbsoluteError

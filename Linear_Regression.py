@@ -1,4 +1,5 @@
 import pandas as pd
+import array
 
 
 def view_model(model):
@@ -47,6 +48,34 @@ clf = LinearRegression()
 
 training_features = X
 training_labels = Y
+
+k = 0
+eg1 = [-0.0701, 0.00, -0.0449, -0.389, -0.3596, -0.3551, -0.3516, -0.4056, -0.4083, -0.3626]
+eg2 = [-0.4532, 0.00, 0.6624, 0.1768, -0.1646, -0.2196, 0.2676, -0.1697, -0.1884, 0.3367]
+eg3 = [0.7561, 0.00, 0.523, 0.0794, -0.1738, 0.224, -0.2009, -0.1441, -0.0489, 0.0678]
+
+for i in training_labels:
+    count = 0;
+    pc1 = 0.0;
+    pc2 = 0.0;
+    pc3 = 0.0;
+    for j in training_features[k]:
+        pc1 += (eg1[count]) * (training_features[k][count])
+        pc2 += (eg2[count]) * (training_features[k][count])
+        pc3 += (eg3[count]) * (training_features[k][count])
+        count += 1
+
+    training_features[k][0] = pc1
+    training_features[k][1] = pc2
+    training_features[k][2] = pc3
+    k += 1
+
+training_features = training_features[:, 0:3]
+k = 0
+for i in training_labels:
+    print training_features[k], training_labels[k]
+    k += 1
+
 '''
 #training_features = [x for (y,x) in sorted(zip(Y,X), key=lambda pair: pair[0])]
 #training_labels = [y for (y,x) in sorted(zip(Y,X), key=lambda pair: pair[0])]
@@ -133,7 +162,23 @@ print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 from CrossValidationMaxMRE import cross_validation
 
 err = cross_validation(clf, training_features, training_labels, 71)
-print "MMRE ERROR:", err
+print "MMRE ERROR:", err, '\n'
+
+
+'''
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import RFE
+
+selector = RFE(clf, 3, step=1)
+err2 = cross_validation(selector, training_features, training_labels, 71)
+print selector.fit_transform(X, Y)
+print "MMRE ERROR AFTER FS", err2
+'''
+
+
+
+
+
 '''
 from CrossValidationPred25 import cross_validation
 

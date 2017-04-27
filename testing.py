@@ -51,7 +51,6 @@ training_labels = numpy_array[:, 10]
 # print (training_features)
 
 from sklearn import linear_model
-
 clf = linear_model.Lasso(alpha=9)
 
 clf.fit(training_features, training_labels)

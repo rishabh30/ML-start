@@ -41,7 +41,7 @@ def baseline_model():
     return final_model
 
 
-input_file = "QUES2.csv"
+input_file = "QUES.csv"
 input_file2 = "UIMS1.csv"
 
 df = pd.read_csv(input_file, header=0)
@@ -59,8 +59,8 @@ numeric_headers2 = list(df.columns.values)
 numpy_array = df.as_matrix()
 numpy_array2 = df2.as_matrix()
 
-X = numpy_array[:, 0:3]
-Y = numpy_array[:, 3]
+X = numpy_array[:, 0:10]
+Y = numpy_array[:, 10]
 
 # training_features = [x for (y, x) in sorted(zip(Y, X), key=lambda pair: pair[0])]
 # training_labels = [y for (y, x) in sorted(zip(Y, X), key=lambda pair: pair[0])]
@@ -68,31 +68,59 @@ Y = numpy_array[:, 3]
 # training_labels = numpy.array(training_labels)
 training_features = X
 training_labels = Y
+
+
+k = 0
+eg1 = [-0.0701, 0.00, -0.0449, -0.389, -0.3596, -0.3551, -0.3516, -0.4056, -0.4083, -0.3626]
+eg2 = [-0.4532, 0.00, 0.6624, 0.1768, -0.1646, -0.2196, 0.2676, -0.1697, -0.1884, 0.3367]
+eg3 = [0.7561, 0.00, 0.523, 0.0794, -0.1738, 0.224, -0.2009, -0.1441, -0.0489, 0.0678]
+
+for i in training_labels:
+    count = 0;
+    pc1 = 0.0;
+    pc2 = 0.0;
+    pc3 = 0.0;
+    for j in training_features[k]:
+        pc1 += (eg1[count]) * (training_features[k][count])
+        pc2 += (eg2[count]) * (training_features[k][count])
+        pc3 += (eg3[count]) * (training_features[k][count])
+        count += 1
+
+    training_features[k][0] = pc1
+    training_features[k][1] = pc2
+    training_features[k][2] = pc3
+    k += 1
+
+training_features_new = training_features[:, 0:3]
+'''
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import chi2
+training_features_new = SelectKBest(chi2, k=3).fit_transform(training_features, training_labels)
+'''
 # print X,Y
 seed = 7
 numpy.random.seed(seed)
 estimator = KerasRegressor(build_fn=baseline_model, nb_epoch=1100, batch_size=5, verbose=0)
-'''IndexError: list assignment index out of range
-kfold = KFold(n_splits=10, random_state=seed)
-results = cross_val_score(estimator, X, Y, cv=kfold)
+'''IndexError: list assignment index out of re(estimator, X, Y, cv=kfold)
 print("Results: %.2f (%.2f) MSE" % (results.mean(), results.std()))
 '''
+
+
 
 from MaxSquaredError import cross_validation
 
 i = 0
-while (i < 10):
+while i < 10:
     print training_labels.size
-    clearedData = cross_validation(estimator, training_features, training_labels, training_labels.size, i)
-
-    training_features, training_labels, sc = zip(*clearedData)
-    training_features = numpy.asarray(training_features)
+    clearedData = cross_validation(estimator, training_features_new, training_labels, training_labels.size, i)
+    training_features_new, training_labels, sc = zip(*clearedData)
+    training_features_new = numpy.asarray(training_features_new)
     training_labels = numpy.asarray(training_labels)
     sc = numpy.asarray(sc)
-    i = i + 1
+    i += 1
 
 print "FINAL MMRE ERROR:", sc.mean()
 
-from  CrossValidationsquareErrorWard import cross_validationall
+from CrossValidationsquareErrorWard import cross_validationall
 
-err = cross_validationall(estimator, training_features, training_labels, 61)
+err = cross_validationall(estimator, training_features_new, training_labels, 61)
