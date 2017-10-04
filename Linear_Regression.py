@@ -15,16 +15,12 @@ input_file2 = "UIMS1.csv"
 # comma delimited is the default
 df = pd.read_csv(input_file, header=0)
 df2 = pd.read_csv(input_file2, header=0)
-# for space delimited use:
-# df = pd.read_csv(input_file, header = 0, delimiter = " ")
-
-# for tab delimited use:
-# df = pd.read_csv(input_file, header = 0, delimiter = "\t")
 
 # put the original column names in a python list
 original_headers = list(df.columns.values)
 original_headers2 = list(df2.columns.values)
 # print (original_headers)
+
 # remove the non-numeric columns
 df = df._get_numeric_data()
 df2 = df2._get_numeric_data()
@@ -49,6 +45,7 @@ clf = LinearRegression()
 training_features = X
 training_labels = Y
 
+#using PCA to reduce 10 components to 3 components
 k = 0
 eg1 = [-0.0701, 0.00, -0.0449, -0.389, -0.3596, -0.3551, -0.3516, -0.4056, -0.4083, -0.3626]
 eg2 = [-0.4532, 0.00, 0.6624, 0.1768, -0.1646, -0.2196, 0.2676, -0.1697, -0.1884, 0.3367]
@@ -70,13 +67,12 @@ for i in training_labels:
     training_features[k][2] = pc3
     k += 1
 
-training_features = training_features[:, 0:3]
-k = 0
-for i in training_labels:
-    print training_features[k], training_labels[k]
-    k += 1
+training_features_new = training_features[:, 0:3]
+
+# Without PCA and featureSelection using 10 components
 
 '''
+
 #training_features = [x for (y,x) in sorted(zip(Y,X), key=lambda pair: pair[0])]
 #training_labels = [y for (y,x) in sorted(zip(Y,X), key=lambda pair: pair[0])]
 
@@ -89,12 +85,11 @@ k=0;
 for i in training_labels :
     print training_features[k] , training_labels[k]
     k=k+1
-import tensorflow as tf
+
 #k=0;
 #for i in training_labels :
 #    print training_features[k] , training_labels[k]
 #    k=k+1
->>>>>>> 1ab188b154682d57acc373822c20bcc1f070dd4a
 #print (training_features)
 
 from sklearn.linear_model import LinearRegression
@@ -132,6 +127,11 @@ view_model(clf)
 
 
 index = []
+'''
+
+#Implementing outlierFunction
+
+'''
 
 from outlierFunction import outliers
 
@@ -161,11 +161,13 @@ print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 
 from CrossValidationMaxMRE import cross_validation
 
-err = cross_validation(clf, training_features, training_labels, 71)
+err = cross_validation(clf, training_features_new, training_labels, 71)
+
 print "MMRE ERROR:", err, '\n'
 
-
+#Using Feature Selection
 '''
+
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import RFE
 
@@ -175,11 +177,6 @@ print selector.fit_transform(X, Y)
 print "MMRE ERROR AFTER FS", err2
 '''
 
-
-
-
-
-'''
 from CrossValidationPred25 import cross_validation
 
 err = cross_validation(clf,training_features,training_labels,71)
@@ -190,7 +187,3 @@ from CrossValidationPred50 import cross_validation
 
 err = cross_validation(clf,training_features,training_labels,71)
 print "PRED 30:", err
-'''
-# scores = cross_val_score(clf, training_features, training_labels,cv=10,scoring='neg_mean_squared_error')
-# print (scores)
-# print("Accuracy: %f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))

@@ -1,14 +1,24 @@
 ﻿# Maintenance Prediction
-  
+
 Predicting software maintainability from various software metric.
 <br>
-Objective of this project is to predict the change in particular software over a period of time depending upon oo metrics. 
+Objective of this project is to predict the change in particular software over a period of time depending upon oo metrics.
 
-It involves analyzing various Machine Learning models like Linear Regression , GRNN , Ward Neural Network and NNEP GRNN .
+It involves analyzing various Machine Learning models-
+<ul>
+<li> Linear Regression
+<li> Decision Tree Regression
+<li> GRNN (General regression neural network )
+<li> Ward Neural Network
+<li> NNEP GRNN (Neural Network Evolutionary Programming)
+</ul>
+
+Used Feature Selection or PCA to reduce 10 components to 3 components
+
 <pre>
-<h2>Using Feature Selction </h2>
+<h2>Using Feature Selection </h2>
 
-Choosing best 3 components to represent 
+Choosing best 3 components to represent
 
 <h2>Using PCA </h2>
 Choosing first 3 components capturing around 89% of data functionality
@@ -21,7 +31,7 @@ eigenvalue	proportion	cumulative
   0.30683	  0.03409	  0.98264	-0.527dac+0.469wmc+0.442dit-0.295mpc-0.279size2...
 
 Eigenvectors
- V1	 V2	 V3	 V4	 V5	
+ V1	 V2	 V3	 V4	 V5
 -0.0701	-0.4532	 0.7561	-0.0162	 0.4417	dit
 -0.0449	 0.6624	 0.523 	 0.2505	-0.295 	mpc
 -0.389 	 0.1768	 0.0794	 0.3737	 0.0971	rfc
@@ -35,6 +45,29 @@ Eigenvectors
 Making 3 new component using above eigenvectors
 </pre>
 
-<h3> Developed by: </h3> 
-	RISHABH JAIN <br>
-	TEJAN PREET SINGH
+<h3>Accuracy Measures to compare various Models :</h3>
+<ul>
+<li>Mean Squared Error(MSE)</li>
+<li>Maximum magnitude of relative error (MaxMRE) - It is the maximum value of
+MREi.</li>
+<li> PRED(25) - Percentage of predictions within 25%.</li>
+<li> PRED(30) - Percentage of predictions within 30%. </li>
+</ol>
+<h3>Results :</h3>
+<p>
+  <img src="https://github.com/rishabh30/Maintenance-prediction/blob/master/docs/ScreenShots/result.png"/>
+  <br>
+  <img src="https://github.com/rishabh30/Maintenance-prediction/blob/master/docs/ScreenShots/result1.png"/>
+
+<br>
+From the results presented above, object-oriented metrics chosen in this study appear to be useful in predicting software quality.
+<br><br>
+NNEP Ward neural network model is found to predict more accurately than Ward network model. NNEP ward neural network with pca is able to reduce MSE(Mean Squared Error) and MMRE(Maximum magnitude of relative error) to a new low value suitable for prediction on new data set .Data is established after studying the relationship between maintenance change and Software Metrics of various other software.
+
+</p>
+
+
+## Maintainers
+The project is maintained by
+- Rishabh Jain ([@rishabh30](https://github.com/rishabh30))
+- Tejan Preet Singh ([@tparora1995](https://github.com/tparora1995))

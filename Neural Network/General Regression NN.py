@@ -21,7 +21,7 @@ BaseWrapper.get_params = custom_get_params
 def baseline_model():
     # create model
     model = Sequential()
-    model.add(Dense(71, input_dim=10, init='normal', activation='relu'))
+    model.add(Dense(71, input_dim=10, init='normal', activation='softplus'))
     model.add(Dense(1, init='normal'))
     # epochs = 50
     # learning_rate = 0.1
@@ -59,7 +59,10 @@ Y = numpy_array[:, 10]
 # training_labels = numpy.array(training_labels)
 training_features = X
 training_labels = Y
-print X, Y
+
+
+
+print training_features
 seed = 7
 numpy.random.seed(seed)
 estimator = KerasRegressor(build_fn=baseline_model, nb_epoch=1100, batch_size=5, verbose=0)
