@@ -54,6 +54,7 @@ MREi.</li>
 <li> PRED(30) - Percentage of predictions within 30%. </li>
 </ol>
 <h3>Results :</h3>
+  For results & analysis Leave one out cross validation(LOOCV) technique is used.
 <p>
   <img src="https://github.com/rishabh30/Maintenance-prediction/blob/master/docs/ScreenShots/result.png"/>
   <br>
